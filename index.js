@@ -40,6 +40,7 @@ app.post('/login', (req, res) => {
   if (login === usuarioFixo.login && senha === usuarioFixo.senha) {
     console.log('Login bem-sucedido!');
     req.session.logado = true;
+    console.log(req.session); // Verifique o conteúdo da sessão
     res.cookie('ultimoAcesso', new Date().toLocaleString(), { maxAge: 30 * 60 * 1000, httpOnly: true });
     res.redirect('/menu');
   } else {
