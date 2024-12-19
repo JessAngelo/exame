@@ -6,13 +6,13 @@ const cookieParser = require('cookie-parser');
 const app = express();
 const PORT = 3000;
 
-app.use(cookieParser());  // Coloque o cookie-parser antes de express-session
+app.use(cookieParser());  
 app.use(session({
   secret: 'M1nh4Chav3S3cr3t4',
   resave: false,
   saveUninitialized: true,
   cookie: {
-    secure: false,  // Para o ambiente local sem HTTPS
+    secure: false,  
     httpOnly: true,
     maxAge: 1000 * 60 * 30  // Sessão válida por 30 minutos
   }
@@ -36,7 +36,7 @@ app.post('/login', (req, res) => {
   if (login === usuarioFixo.login && senha === usuarioFixo.senha) {
     console.log('Login bem-sucedido!');
     req.session.logado = true;
-    console.log(req.session);  // Verifique o conteúdo da sessão
+    console.log(req.session);  
     res.cookie('ultimoAcesso', new Date().toLocaleString(), { maxAge: 30 * 60 * 1000, httpOnly: true });
     res.redirect('/menu');
   } else {
@@ -52,24 +52,12 @@ app.post('/login', (req, res) => {
 });
 
 app.get('/menu', (req, res) => {
-  if (!req.session.logado) return res.redirect('/');
-  console.log('Usuário autenticado, acessando o menu');
-  const ultimoAcesso = req.cookies.ultimoAcesso || 'Primeiro acesso';
-  res.send(`
-    <html>
-      <body>
-        <h1>Menu do Sistema</h1>
-        <p>Último acesso: ${ultimoAcesso}</p>
-        <ul>
-          <li><a href="/cadastro-interessado">Cadastrar Interessado</a></li>
-          <li><a href="/cadastro-pet">Cadastrar Pet</a></li>
-          <li><a href="/adocao">Adotar um Pet</a></li>
-        </ul>
-        <a href="/logout">Logout</a>
-      </body>
-    </html>
-  `);
-});
+  app.get('/menu', (req, res) => {
+    if (!req.session.logado) return res.redirect('/');
+    console.log('Usuário autenticado, acessando o menu');
+    const ultimoAcesso = req.cookies.ultimoAcesso || 'Primeiro acesso';
+    res.sendFile(path.join(__dirname, 'public', 'menu.html'));  
+  });
 
 app.get('/logout', (req, res) => {
   req.session.destroy((err) => {
