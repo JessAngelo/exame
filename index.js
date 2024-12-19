@@ -13,9 +13,10 @@ app.use(session({
   cookie: {
     secure: false,  
     httpOnly: true,
-    maxAge: 1000 * 60 * 30 // Sessão válida por 30 minutos
+    maxAge: 1000 * 60 * 30  // Sessão válida por 30 minutos
   }
 }));
+;
 
 app.use(cookieParser());
 
@@ -37,10 +38,12 @@ app.post('/login', (req, res) => {
   const { login, senha } = req.body;
 
   if (login === usuarioFixo.login && senha === usuarioFixo.senha) {
+    console.log('Login bem-sucedido!');
     req.session.logado = true;
     res.cookie('ultimoAcesso', new Date().toLocaleString(), { maxAge: 30 * 60 * 1000, httpOnly: true });
     res.redirect('/menu');
   } else {
+    console.log('Credenciais inválidas!');
     res.send(`
       <html>
         <body>
@@ -52,8 +55,10 @@ app.post('/login', (req, res) => {
 });
 
 
+
 app.get('/menu', (req, res) => {
   if (!req.session.logado) return res.redirect('/');
+  console.log('Usuário autenticado, acessando o menu');
   const ultimoAcesso = req.cookies.ultimoAcesso || 'Primeiro acesso';
   res.send(`
     <html>
@@ -70,6 +75,7 @@ app.get('/menu', (req, res) => {
     </html>
   `);
 });
+
 
 
 app.get('/logout', (req, res) => {
