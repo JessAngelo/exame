@@ -6,22 +6,19 @@ const cookieParser = require('cookie-parser');
 const app = express();
 const PORT = 3000;
 
+app.use(cookieParser());  // Coloque o cookie-parser antes de express-session
 app.use(session({
   secret: 'M1nh4Chav3S3cr3t4',
   resave: false,
   saveUninitialized: true,
   cookie: {
-    secure: false,  
+    secure: false,  // Para o ambiente local sem HTTPS
     httpOnly: true,
     maxAge: 1000 * 60 * 30  // Sessão válida por 30 minutos
   }
 }));
-;
-
-app.use(cookieParser());
 
 app.use(express.urlencoded({ extended: true }));
-
 app.use(express.static(path.join(process.cwd(), 'public')));
 
 let interessados = [];
@@ -33,14 +30,13 @@ app.get('/', (req, res) => {
   res.sendFile(path.join(__dirname, 'public', 'index.html'));
 });
 
-
 app.post('/login', (req, res) => {
   const { login, senha } = req.body;
 
   if (login === usuarioFixo.login && senha === usuarioFixo.senha) {
     console.log('Login bem-sucedido!');
     req.session.logado = true;
-    console.log(req.session); // Verifique o conteúdo da sessão
+    console.log(req.session);  // Verifique o conteúdo da sessão
     res.cookie('ultimoAcesso', new Date().toLocaleString(), { maxAge: 30 * 60 * 1000, httpOnly: true });
     res.redirect('/menu');
   } else {
@@ -54,8 +50,6 @@ app.post('/login', (req, res) => {
     `);
   }
 });
-
-
 
 app.get('/menu', (req, res) => {
   if (!req.session.logado) return res.redirect('/');
@@ -76,8 +70,6 @@ app.get('/menu', (req, res) => {
     </html>
   `);
 });
-
-
 
 app.get('/logout', (req, res) => {
   req.session.destroy((err) => {
@@ -123,7 +115,6 @@ app.post('/cadastro-interessado', (req, res) => {
   res.redirect('/lista-interessados');
 });
 
-
 app.get('/lista-interessados', (req, res) => {
   if (!req.session.logado) return res.redirect('/');
   const lista = interessados.map(i => `<li>${i.nome} - ${i.email} - ${i.telefone}</li>`).join('');
@@ -138,7 +129,6 @@ app.get('/lista-interessados', (req, res) => {
     </html>
   `);
 });
-
 
 app.get('/cadastro-pet', (req, res) => {
   if (!req.session.logado) return res.redirect('/');
@@ -167,7 +157,6 @@ app.post('/cadastro-pet', (req, res) => {
     res.send('<h3>Todos os campos são obrigatórios! <a href="/cadastro-pet">Voltar</a></h3>');
   }
 });
-
 
 app.get('/lista-pets', (req, res) => {
   if (!req.session.logado) return res.redirect('/');
