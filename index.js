@@ -200,7 +200,6 @@ app.get('/adocao', (req, res) => {
   `);
 });
 
-// Rota para registrar a adoção
 app.post('/adocao', (req, res) => {
   const { interessado, pet } = req.body;
   if (interessado && pet) {
@@ -212,7 +211,6 @@ app.post('/adocao', (req, res) => {
   }
 });
 
-// Lista de Adoções
 app.get('/lista-adocoes', (req, res) => {
   if (!req.session.logado) return res.redirect('/');
   const listaAdocoes = adocoes.map(a => `<li>${a.interessado} adotou ${a.pet} em ${a.data}</li>`).join('');
