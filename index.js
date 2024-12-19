@@ -6,14 +6,13 @@ const cookieParser = require('cookie-parser');
 const app = express();
 const PORT = 3000;
 
-app.use(cookieParser()); // Coloque isso antes do session
-
+app.use(cookieParser());  // Coloque o cookie-parser antes de express-session
 app.use(session({
   secret: 'M1nh4Chav3S3cr3t4',
   resave: false,
   saveUninitialized: true,
   cookie: {
-    secure: false,  // Mantenha como false no desenvolvimento local
+    secure: false,  // Para o ambiente local sem HTTPS
     httpOnly: true,
     maxAge: 1000 * 60 * 30  // Sessão válida por 30 minutos
   }
@@ -37,7 +36,7 @@ app.post('/login', (req, res) => {
   if (login === usuarioFixo.login && senha === usuarioFixo.senha) {
     console.log('Login bem-sucedido!');
     req.session.logado = true;
-    // Defina o cookie 'ultimoAcesso' para armazenar a data e hora do último acesso
+    console.log(req.session);  // Verifique o conteúdo da sessão
     res.cookie('ultimoAcesso', new Date().toLocaleString(), { maxAge: 30 * 60 * 1000, httpOnly: true });
     res.redirect('/menu');
   } else {
@@ -115,6 +114,7 @@ app.post('/cadastro-interessado', (req, res) => {
   interessados.push({ nome, email, telefone });
   res.redirect('/lista-interessados');
 });
+
 app.get('/lista-interessados', (req, res) => {
   if (!req.session.logado) return res.redirect('/');
   const lista = interessados.map(i => `<li>${i.nome} - ${i.email} - ${i.telefone}</li>`).join('');
