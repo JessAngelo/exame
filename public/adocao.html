@@ -1,0 +1,21 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Adotar um Pet</title>
+</head>
+<body>
+        <h1>Adotar um Pet</h1>
+        <form method="POST" action="/adocao">
+          <label>Interessado:</label>
+          <select name="interessado">${interessadosOptions}</select><br><br>
+          <label>Pet:</label>
+          <select name="pet">${petsOptions}</select><br><br>
+          <button type="submit">Registrar Adoção</button>
+        </form>
+        <h2>Registros de Adoção:</h2>
+        <ul>${adocoes.map(a => `<li>${a.interessado} demonstrou interesse em adotar ${a.pet} em ${a.data}</li>`).join('')}</ul>
+        <a href="/menu">Voltar ao Menu</a>
+</body>
+</html>

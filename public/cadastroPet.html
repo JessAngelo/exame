@@ -1,0 +1,21 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <title>Cadastro de Pet</title>
+</head>
+  <html>
+    <body>
+      <h1>Cadastro de Pet</h1>
+      <form method="POST" action="/cadastro-pet" id="formCadastroPet">
+        <label for="nome">Nome: </label>
+          <input type="text" name="nome" id="nome" placeholder="Nome" required /><br><br>
+          <label for="raca">Raça: </label>
+          <input type="text" name="raca" id="raca" placeholder="Raça" required /><br><br>
+          <label for="idade">Idade (anos): </label>
+          <input type="number" name="idade" id="idade" placeholder="Idade" required /><br><br>
+          <button type="submit">Cadastrar</button>
+      </form>
+      <a href="/menu">Voltar ao Menu</a>
+    </body>
+  </html>

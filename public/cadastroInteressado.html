@@ -1,0 +1,20 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <title>Cadastro de Interessado</title>
+</head>
+<body>
+  <h1>Cadastro de Interessado</h1>
+  <form method="POST" action="/cadastro-interessado">
+    <label for="nome">Nome: </label>
+    <input type="text" name="nome" id="nome" placeholder="Nome" required /><br><br>
+    <label for="email">Email: </label>
+    <input type="email" name="email" id="email" placeholder="Email" required /><br><br>
+    <label for="telefone">Telefone: </label>
+    <input type="text" name="telefone" id="telefone" placeholder="Telefone" required maxlength="15" /><br><br>
+    <button type="submit">Cadastrar</button>
+  </form>
+  <a href="/menu">Voltar ao Menu</a>
+</body>
+</html>

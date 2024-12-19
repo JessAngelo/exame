@@ -1,0 +1,24 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <title>Menu</title>
+  <link rel="stylesheet" href="/css/style.css">
+</head>
+<body>
+  <h1>Menu do Sistema</h1>
+  <p>Último acesso: <span id="ultimoAcesso"></span></p>
+  <ul>
+    <li><a href="/cadastro-interessado">Cadastrar Interessado</a></li>
+    <li><a href="/cadastro-pet">Cadastrar Pet</a></li>
+    <li><a href="/adocao">Adotar um Pet</a></li>
+  </ul>
+  <a href="/logout">Logout</a>
+
+  <script>
+
+    const ultimoAcesso = new Date().toLocaleString();
+    document.getElementById('ultimoAcesso').textContent = ultimoAcesso;
+  </script>
+</body>
+</html>
