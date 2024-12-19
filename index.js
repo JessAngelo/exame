@@ -52,12 +52,24 @@ app.post('/login', (req, res) => {
 });
 
 app.get('/menu', (req, res) => {
-  app.get('/menu', (req, res) => {
-    if (!req.session.logado) return res.redirect('/');
-    console.log('Usuário autenticado, acessando o menu');
-    const ultimoAcesso = req.cookies.ultimoAcesso || 'Primeiro acesso';
-    res.sendFile(path.join(__dirname, 'public', 'menu.html'));  
-  });
+  if (!req.session.logado) return res.redirect('/');
+  console.log('Usuário autenticado, acessando o menu');
+  const ultimoAcesso = req.cookies.ultimoAcesso || 'Primeiro acesso';
+  res.send(`
+    <html>
+      <body>
+        <h1>Menu do Sistema</h1>
+        <p>Último acesso: ${ultimoAcesso}</p>
+        <ul>
+          <li><a href="/cadastro-interessado">Cadastrar Interessado</a></li>
+          <li><a href="/cadastro-pet">Cadastrar Pet</a></li>
+          <li><a href="/adocao">Adotar um Pet</a></li>
+        </ul>
+        <a href="/logout">Logout</a>
+      </body>
+    </html>
+  `);
+});
 
 app.get('/logout', (req, res) => {
   req.session.destroy((err) => {
